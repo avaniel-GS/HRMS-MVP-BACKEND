@@ -6,6 +6,8 @@ from models import EmployeeCreate
 app = FastAPI(title="HRMS MVP Backend")
 add_cors_middleware(app)
 
+import Database
+connected = Database.Connect()
 
 @app.get("/")
 async def read_root() -> dict[str, str]:
@@ -16,13 +18,13 @@ async def read_root() -> dict[str, str]:
 async def health_check():
     return {"status": "ok"}
 
+@app.get("/api/db_version")
+async def db_version():
+    return Database.Version()
 
 @app.post("/api/add_employee")
 async def add_employee(payload: EmployeeCreate):
-    return {
-        "message": "Employee added successfully",
-        "employee": payload.model_dump(),
-    }
+    return Database.Add_Employee(payload)
 
 
 if __name__ == "__main__":

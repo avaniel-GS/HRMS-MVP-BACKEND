@@ -48,11 +48,21 @@ class Employees:
             with self.database._get_connection() as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO employees (name, email, role, department, date_of_joining) VALUES (%s, %s, %s, %s, %s) RETURNING id;",
+                        "INSERT INTO employees (name, email, role, department, date_of_joining) VALUES (%s, %s, %s, %s, %s) RETURNING id, name, email, role, department, date_of_joining;",
                         (payload.name, payload.email, payload.role, payload.department, payload.date_of_joining),
                     )
-                    employee_id = cursor.fetchone()[0]
+                    saved_employee = cursor.fetchone()
                     connection.commit()
-                    return {"message": "Employee added successfully", "employee_id": employee_id}
+                    return {
+                        "message": "Employee added successfully",
+                        "employee": {
+                            "id": saved_employee[0],
+                            "name": saved_employee[1],
+                            "email": saved_employee[2],
+                            "role": saved_employee[3],
+                            "department": saved_employee[4],
+                            "date_of_joining": saved_employee[5],
+                        },
+                    }
         except Exception as e:
             return {"error": str(e)}

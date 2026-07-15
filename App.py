@@ -31,6 +31,9 @@ async def db_version():
 async def add_employee(payload: EmployeeCreate):
     return employees.Add_Employee(payload)
 
+@app.get("/api/get_employees")
+async def get_employees():
+    return employees.Get_Employees()
 
 if __name__ == "__main__":
     import uvicorn

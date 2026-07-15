@@ -66,3 +66,23 @@ class Employees:
                     }
         except Exception as e:
             return {"error": str(e)}
+    
+    def Get_Employees(self):
+        try:
+            with self.database._get_connection() as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT id, name, email, role, department, date_of_joining FROM employees;")
+                    employees = cursor.fetchall()
+                    return [
+                        {
+                            "id": emp[0],
+                            "name": emp[1],
+                            "email": emp[2],
+                            "role": emp[3],
+                            "department": emp[4],
+                            "date_of_joining": emp[5],
+                        }
+                        for emp in employees
+                    ]
+        except Exception as e:
+            return {"error": str(e)}

@@ -2,12 +2,15 @@ from fastapi import FastAPI
 
 from cors import add_cors_middleware
 from models import EmployeeCreate
+from Database import Database, Employees
 
 app = FastAPI(title="HRMS MVP Backend")
 add_cors_middleware(app)
 
-import Database
-connected = Database.Connect()
+db = Database()
+employees = Employees(db)
+connected = db.Connect()
+
 
 @app.get("/")
 async def read_root() -> dict[str, str]:
@@ -18,13 +21,15 @@ async def read_root() -> dict[str, str]:
 async def health_check():
     return {"status": "ok"}
 
+
 @app.get("/api/db_version")
 async def db_version():
-    return Database.Version()
+    return db.Version()
+
 
 @app.post("/api/add_employee")
 async def add_employee(payload: EmployeeCreate):
-    return Database.Add_Employee(payload)
+    return employees.Add_Employee(payload)
 
 
 if __name__ == "__main__":

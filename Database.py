@@ -54,15 +54,7 @@ class Employees:
                     saved_employee = cursor.fetchone()
                     connection.commit()
                     return {
-                        "message": "Employee added successfully",
-                        "employee": {
-                            "id": saved_employee[0],
-                            "name": saved_employee[1],
-                            "email": saved_employee[2],
-                            "role": saved_employee[3],
-                            "department": saved_employee[4],
-                            "date_of_joining": saved_employee[5],
-                        },
+                        "message": "Employee added successfully"
                     }
         except Exception as e:
             return {"error": str(e)}

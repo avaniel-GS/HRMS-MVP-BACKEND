@@ -4,7 +4,7 @@ from cors import add_cors_middleware
 from models import EmployeeCreate
 from Database import Database, Employees
 
-app = FastAPI(title="HRMS MVP Backend")
+app = FastAPI(title="HRMS MVP Backend", docs_url=False)
 add_cors_middleware(app)
 
 db = Database()

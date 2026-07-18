@@ -113,3 +113,24 @@ class Employees:
                     }
         except Exception as e:
             return {"error": str(e)}
+        
+    
+    def get_department_count(self):
+        try:
+            with self.database._get_connection() as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        '''
+                        SELECT SUM(department_count) AS total_employees
+                        FROM (
+                        SELECT department, COUNT(*) AS department_count
+                        FROM employees
+                        GROUP BY department
+                        ) AS subquery;
+                    ''')
+                    dept_count = cursor.fetchall()
+                    return {
+                        "Count": dept_count
+                    }
+        except Exception as e:
+            return {"error": str(e)}

@@ -39,6 +39,10 @@ async def get_employees():
 async def get_head_count():
     return employees.get_head_count()
 
+@app.get("/api/get_department_count")
+async def get_department_count():
+    return employees.get_department_count()
+
 if __name__ == "__main__":
     import uvicorn
 

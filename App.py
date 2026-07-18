@@ -35,6 +35,10 @@ async def add_employee(payload: EmployeeCreate):
 async def get_employees():
     return employees.Get_Employees()
 
+@app.get("/api/get_head_count")
+async def get_head_count():
+    return employees.get_head_count()
+
 if __name__ == "__main__":
     import uvicorn
 

@@ -101,3 +101,15 @@ class Employees:
                     ]
         except Exception as e:
             return {"error": str(e)}
+        
+    def get_head_count(self):
+        try:
+            with self.database._get_connection() as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT MAX(id) FROM employees as COUNT;")
+                    head_count = cursor.fetchall()
+                    return {
+                        "Count": head_count
+                    }
+        except Exception as e:
+            return {"error": str(e)}

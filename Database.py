@@ -121,9 +121,9 @@ class Employees:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         '''
-                        SELECT SUM(department_count) AS total_employees
+                        SELECT COUNT(*) AS total_departments
                         FROM (
-                        SELECT department, COUNT(*) AS department_count
+                        SELECT department
                         FROM employees
                         GROUP BY department
                         ) AS subquery;

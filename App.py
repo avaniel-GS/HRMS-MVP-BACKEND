@@ -31,9 +31,9 @@ async def db_version():
 async def add_employee(payload: EmployeeCreate):
     return employees.Add_Employee(payload)
 
-@app.get("/api/get_employees")
-async def get_employees():
-    return employees.Get_Employees()
+@app.get("/api/get_employees/{count}")
+async def get_employees(count: int):
+    return employees.Get_Employees(count)
 
 @app.get("/api/get_latest_employees")
 async def latest_employees():
@@ -46,6 +46,10 @@ async def get_head_count():
 @app.get("/api/get_department_count")
 async def get_department_count():
     return employees.get_department_count()
+
+@app.post("/api/delete_employees/{id}")
+def Delete(id: int):
+    return employees.deleteEmployee(id)
 
 if __name__ == "__main__":
     import uvicorn

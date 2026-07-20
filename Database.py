@@ -82,11 +82,11 @@ class Employees:
         except Exception as e:
             return {"error": str(e)}
 
-    def Get_Employees(self):
+    def Get_Employees(self, count):
         try:
             with self.database._get_connection() as connection:
                 with connection.cursor() as cursor:
-                    cursor.execute("SELECT id, name, email, role, department, date_of_joining FROM employees;")
+                    cursor.execute("SELECT id, name, email, role, department, date_of_joining FROM employees ORDER BY id DESC LIMIT %s;", (count,))
                     employees = cursor.fetchall()
                     return [
                         {
@@ -131,6 +131,20 @@ class Employees:
                     dept_count = cursor.fetchall()
                     return {
                         "Count": dept_count
+                    }
+        except Exception as e:
+            return {"error": str(e)}
+        
+    
+    def deleteEmployee(self, id):
+        try:
+            with self.database._get_connection() as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute("DELETE FROM employees WHERE id=%s RETURNING id, name", (id,))
+                    d_Data = cursor.fetchone()
+                    connection.commit()
+                    return {
+                        "deleted employee with id": str(d_Data)
                     }
         except Exception as e:
             return {"error": str(e)}

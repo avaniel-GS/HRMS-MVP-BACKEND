@@ -31,13 +31,10 @@ async def db_version():
 async def add_employee(payload: EmployeeCreate):
     return employees.Add_Employee(payload)
 
-@app.get("/api/get_employees/{count}")
-async def get_employees(count: int):
-    return employees.Get_Employees(count)
 
-@app.get("/api/get_latest_employees")
-async def latest_employees():
-    return employees.Get_Latest_Employees()
+@app.get("/api/get_employees/limit={limit}/offset={offset}")
+async def latest_employees(limit: int, offset: int):
+    return employees.Get_Employees(limit , offset)
 
 @app.get("/api/get_head_count")
 async def get_head_count():

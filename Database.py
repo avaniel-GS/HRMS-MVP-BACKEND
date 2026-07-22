@@ -59,13 +59,13 @@ class Employees:
         except Exception as e:
             return {"error": str(e)}
     
-    def Get_Latest_Employees(self, limit=4):
+    def Get_Employees(self, limit, offset):
         try:
             with self.database._get_connection() as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT id, name, email, role, department, date_of_joining FROM employees ORDER BY id DESC LIMIT %s;",
-                        (limit,),
+                        "SELECT id, name, email, role, department, date_of_joining FROM employees ORDER BY id DESC LIMIT %s OFFSET %s;",
+                        (limit, offset),
                     )
                     employees = cursor.fetchall()
                     return [
@@ -82,25 +82,7 @@ class Employees:
         except Exception as e:
             return {"error": str(e)}
 
-    def Get_Employees(self, count):
-        try:
-            with self.database._get_connection() as connection:
-                with connection.cursor() as cursor:
-                    cursor.execute("SELECT id, name, email, role, department, date_of_joining FROM employees ORDER BY id DESC LIMIT %s;", (count,))
-                    employees = cursor.fetchall()
-                    return [
-                        {
-                            "id": emp[0],
-                            "name": emp[1],
-                            "email": emp[2],
-                            "role": emp[3],
-                            "department": emp[4],
-                            "date_of_joining": emp[5],
-                        }
-                        for emp in employees
-                    ]
-        except Exception as e:
-            return {"error": str(e)}
+
         
     def get_head_count(self):
         try:

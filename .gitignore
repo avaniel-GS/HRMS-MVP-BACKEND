@@ -126,3 +126,6 @@ celerybeat-schedule
 .ropeproject/
 .mypy_cache/
 __pycache__/
+
+# Nested/local copy of the project repo
+HRMS-MVP-BACKEND/
